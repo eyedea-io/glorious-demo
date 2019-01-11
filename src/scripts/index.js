@@ -24,6 +24,15 @@ export default class {
     });
     return this;
   }
+  print(content, options = {}){
+    this.steps.push({
+      app: 'website',
+      action: 'print',
+      params: { content },
+      onCompleteDelay: options.onCompleteDelay
+    });
+    return this;
+  }
   command(command, options = {}){
     this.steps.push({
       app: 'terminal',

@@ -1,6 +1,7 @@
 import '@styles/desktop.styl';
 import { EditorApplication } from '../editor-application/editor-application';
 import { TerminalApplication } from '../terminal-application/terminal-application';
+import { WebsiteApplication } from '../website-application/website-application';
 import domService from '../../services/dom/dom';
 import template from './desktop.html';
 
@@ -30,8 +31,17 @@ export class Desktop {
   }
 }
 
+function getApp(applicationType='editor') {
+  const apps = {
+    website: WebsiteApplication,
+    editor: EditorApplication,
+    terminal: TerminalApplication,
+  };
+  return apps[applicationType];
+}
+
 function buildApplication(desktop, applicationType, options){
-  const Application = applicationType == 'editor' ? EditorApplication: TerminalApplication;
+  const Application = getApp(applicationType);
   const application = new Application(desktop.element, options);
   desktop.openApplications.push(application);
   desktop.element.appendChild(application.element);

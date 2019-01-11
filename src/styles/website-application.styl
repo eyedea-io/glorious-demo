@@ -1,0 +1,63 @@
+@import '_variables'
+@import '_mixins'
+
+$website-application-action-size = 8px
+$website-application-box-shadow-intensity = 12px 18px 48px 0
+$website-application-box-shadow-color = alpha($color-darkest, .6)
+
+.website-application
+  background-color $color-lightest
+  color alpha($color-lightest, .5)
+  font-family 'Helvetica', 'Arial', sans-serif
+  box-shadow $website-application-box-shadow-intensity $website-application-box-shadow-color
+  overflow hidden
+  border-radius(6px)
+  transition(all, $animation-duration)
+
+.website-application-topbar
+  position relative
+  padding 3px 12px
+  clearfix()
+  box-sizing(border-box)
+
+.website-application-actions-container
+  position absolute
+  top 50%
+  transform('translateY(-50%)')
+
+.website-application-actions-container,
+.website-application-action
+  float left
+
+.website-application-action
+  width $website-application-action-size
+  height $website-application-action-size
+  border-radius(50%)
+  &.website-application-action-close
+    background-color $color-red
+  &.website-application-action-minimize
+    background-color $color-yellow
+  &.website-application-action-maximize
+    background-color $color-green
+  & + .website-application-action
+    margin-left 6px
+
+.website-application-title-container
+  padding-left 45px
+  font-size $font-size-xxxs
+  text-align center
+  line-height $font-size-lg
+  white-space nowrap
+  letter-spacing .5px
+
+.website-application-content-container
+  overflow auto
+
+.website-application-line
+  position relative
+  padding 0 6px
+  min-height $font-size-xl
+  font-size $font-size-xs
+  line-height $font-size-xl
+  font-family monospace
+  clearfix()

@@ -7,7 +7,8 @@ export class Application {
   constructor(applicationType, options = {}){
     this.type = applicationType;
     this.options = options;
-    this.element = buildElement(applicationType);
+    this.template = template;
+    this.element = this.buildElement(applicationType);
     this.setOptions(this.options);
   }
   setOptions(options){
@@ -18,54 +19,54 @@ export class Application {
   }
   setMinHeight(height){
     const applicationTopbarHeight = 26;
-    const contentContainer = getContentContainerElement(this.element);
+    const contentContainer = this.getContentContainerElement(this.element);
     const contentContainerMinHeight = parseInt(height) - applicationTopbarHeight;
     contentContainer.style.minHeight = `${contentContainerMinHeight}px`;
   }
   setWindowTitle(title){
-    const titleContainerElement = getWindowTitleContainerElement(this.element);
+    const titleContainerElement = this.getWindowTitleContainerElement(this.element);
     titleContainerElement.innerText = title;
     this.windowTitle = title;
   }
   addContent(content){
-    const container = getContentContainerElement(this.element);
+    const container = this.getContentContainerElement(this.element);
     container.appendChild(content);
   }
   minimize(){
     this.setMaximized(false);
-    handleMaximizedCssClass(this.element, 'remove');
+    this.handleMaximizedCssClass(this.element, 'remove');
   }
   maximize(){
     this.setMaximized(true);
-    handleMaximizedCssClass(this.element, 'add');
+    this.handleMaximizedCssClass(this.element, 'add');
   }
   setMaximized(isMaximized){
     this.isMaximized = isMaximized;
   }
+  buildElement(applicationType){
+    let element = this.buildWrapper(applicationType);
+    element.appendChild(domService.parseHtml(this.template));
+    return element;
+  }
+
+  buildWrapper(applicationType){
+    const wrapper = document.createElement('div');
+    const cssClass = `${textService.toKebabCase(applicationType)}-application`;
+    wrapper.setAttribute('class', cssClass);
+    return wrapper;
+  }
+
+  getContentContainerElement(applicationElement){
+    return applicationElement.querySelector('[data-content-container]');
+  }
+
+  getWindowTitleContainerElement(applicationElement){
+    return applicationElement.querySelector('[data-title-container]');
+  }
+
+  handleMaximizedCssClass(element, classListMethod){
+    const application = element.querySelector('[data-application]');
+    application.classList[classListMethod]('application-maximized');
+  }
 }
 
-function buildElement(applicationType){
-  let element = buildWrapper(applicationType);
-  element.appendChild(domService.parseHtml(template));
-  return element;
-}
-
-function buildWrapper(applicationType){
-  const wrapper = document.createElement('div');
-  const cssClass = `${textService.toKebabCase(applicationType)}-application`;
-  wrapper.setAttribute('class', cssClass);
-  return wrapper;
-}
-
-function getContentContainerElement(applicationElement){
-  return applicationElement.querySelector('[data-content-container]');
-}
-
-function getWindowTitleContainerElement(applicationElement){
-  return applicationElement.querySelector('[data-title-container]');
-}
-
-function handleMaximizedCssClass(element, classListMethod){
-  const application = element.querySelector('[data-application]');
-  application.classList[classListMethod]('application-maximized');
-}
