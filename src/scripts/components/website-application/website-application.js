@@ -15,6 +15,7 @@ export class WebsiteApplication extends Application {
     this.element = this.buildElement('website');
     this.setCommandLines([]);
     this.configOptions(options);
+    this.setOptions(this.options);
   }
   configOptions(options){
     this.setWindowTitle(buildWindowTitle(options));
@@ -41,6 +42,11 @@ export class WebsiteApplication extends Application {
   print({ content }, onComplete){
     this.addContent(buildBlockElement(`<pre>${content}</pre>`));
     onComplete();
+  }
+
+  handleMaximizedCssClass(element, classListMethod){
+    const application = element.querySelector('[website-data-application]');
+    application.classList[classListMethod]('application-maximized');
   }
 }
 
