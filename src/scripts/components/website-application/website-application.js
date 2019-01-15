@@ -10,7 +10,8 @@ export class WebsiteApplication extends Application {
   constructor(container, options = {}){
     super('website', options);
     this.container = container;
-    this.container.appendChild(this.element);
+    // FIXME: This adds second window instance
+    // this.container.appendChild(this.element);
     this.template = template;
     this.element = this.buildElement('website');
     this.setCommandLines([]);
@@ -45,8 +46,10 @@ export class WebsiteApplication extends Application {
   }
 
   handleMaximizedCssClass(element, classListMethod){
-    const application = element.querySelector('[website-data-application]');
-    application.classList[classListMethod]('application-maximized');
+    const application = element.querySelector('[data-website-application]');
+    setTimeout(() => {
+      application.classList[classListMethod]('application-maximized');
+    }, 100)
   }
 }
 

@@ -15,18 +15,22 @@ export class Desktop {
     this.container.appendChild(this.element);
   }
   openApplication(applicationType, applicationOptions){
-    const application = getOpenApplication(this.openApplications, applicationType);
+    const application = getOpenApplication(this.openApplications, applicationOptions.id);
+
     if(!application)
       return buildApplication(this, applicationType, applicationOptions);
+
     return application;
   }
   minimizeAllApplications(onComplete){
     for(let i = 0; i < this.openApplications.length; i++)
       this.openApplications[i].minimize();
+    // onComplete()
     setTimeout(onComplete, ANIMATION_DEFAULT_DURATION);
   }
   maximizeApplication(application, onComplete){
     application.maximize();
+    // onComplete()
     setTimeout(onComplete, ANIMATION_DEFAULT_DURATION);
   }
 }
@@ -48,10 +52,12 @@ function buildApplication(desktop, applicationType, options){
   return application;
 }
 
-function getOpenApplication(openApplications, applicationType){
+function getOpenApplication(openApplications, applicationId){
   for(let i = 0; i < openApplications.length; i++){
     const application = openApplications[i];
-    if(application.type == applicationType)
+
+    if (application.options.id == applicationId) {
       return application;
+    }
   }
 }

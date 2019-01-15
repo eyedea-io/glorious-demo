@@ -13,7 +13,7 @@ function appendLetter(container, letter, letters, onComplete){
   container.append(letter);
   setTimeout(() => {
     _public.type(container, letters.join(''), onComplete);
-  }, 75);
+  }, 45);
 }
 
 export default _public;

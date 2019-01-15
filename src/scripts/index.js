@@ -6,8 +6,10 @@ export default class {
   constructor(selector){
     this.container = document.querySelector(selector);
     this.steps = [];
+    this.lastOptions = {}
   }
   openApp(app, options = {}){
+    this.lastOptions = options
     this.steps.push({
       app,
       options,
@@ -20,6 +22,7 @@ export default class {
       app: 'editor',
       action: 'write',
       params: { codeSample },
+      options: this.lastOptions,
       onCompleteDelay: options.onCompleteDelay
     });
     return this;
@@ -29,6 +32,7 @@ export default class {
       app: 'website',
       action: 'print',
       params: { content },
+      options: this.lastOptions,
       onCompleteDelay: options.onCompleteDelay
     });
     return this;
@@ -41,6 +45,7 @@ export default class {
         command,
         promptString: options.promptString
       },
+      options: this.lastOptions,
       onCompleteDelay: options.onCompleteDelay
     });
     return this;
@@ -50,6 +55,7 @@ export default class {
       app: 'terminal',
       action: 'respond',
       params: { response },
+      options: this.lastOptions,
       onCompleteDelay: options.onCompleteDelay
     });
     return this;

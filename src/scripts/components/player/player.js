@@ -36,14 +36,14 @@ function playStep(desktop, step, onComplete, onCompleteDelay = 0){
   });
 }
 
-function getApplication(desktop, app, options, onGetApplication){
-  const application = desktop.openApplication(app, options);
+function getApplication(desktop, appType, options, onGetApplication){
+  const application = desktop.openApplication(appType, options);
   if(application.isMaximized)
     onGetApplication(application);
   else
-    desktop.minimizeAllApplications(() => {
-      desktop.maximizeApplication(application, () => {
-        onGetApplication(application);
-      });
+    desktop.maximizeApplication(application, () => {
+      onGetApplication(application);
     });
+    // desktop.minimizeAllApplications(() => {
+    // });
 }

@@ -66,7 +66,10 @@ export class Application {
 
   handleMaximizedCssClass(element, classListMethod){
     const application = element.querySelector('[data-application]');
-    application.classList[classListMethod]('application-maximized');
+
+    setTimeout(() => {
+      application.classList[classListMethod]('application-maximized');
+    }, 100)
   }
 }
 
